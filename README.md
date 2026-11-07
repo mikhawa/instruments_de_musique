@@ -44,3 +44,31 @@ Ouvrir Powershell et l'ouvrir (ou l'installer) ou n'importe quelle console
 Suivre le serveur, puis dans Claude
 
     /init
+
+## Etape 3 Chemins de travail
+
+Racine du projet : `/home/VOTRE_LOGIN/instruments_de_musique` (dans WSL, pas sur le disque Windows).
+
+| Chemin | Rôle |
+|---|---|
+| `src/` | Code PHP (`Controller/`, `Entity/`, `Repository/`) |
+| `templates/` | Vues Twig |
+| `assets/` | JS (Stimulus, `app.js`) et CSS (AssetMapper, sans Node) |
+| `config/` | Configuration Symfony (`packages/doctrine.yaml`, `routes/`, `services.yaml`) |
+| `migrations/` | Migrations Doctrine |
+| `translations/` | Fichiers de traduction |
+| `tests/` | Tests PHPUnit |
+| `public/` | Racine web (`index.php`) |
+| `compose.yaml`, `compose.override.yaml` | Docker : PHP, Nginx, MariaDB 11.4, Mailpit, phpMyAdmin |
+| `Dockerfile`, `docker/` | Image PHP (cibles `dev`/`prod`), config Nginx |
+| `.env` (versionné), `.env.local` (secrets, non versionné) | Variables d'environnement |
+| `docs/` | Documentation technique (`devops/`, `architecture/`) |
+| `documentation-dev/` | Fiches de suivi du développement |
+| `.claude/`, `CLAUDE.md` | Agents et instructions Claude Code |
+
+Les commandes s'exécutent dans les conteneurs depuis la racine :
+
+    docker compose up -d --build
+    docker compose exec php php bin/console <commande>
+
+Adresses locales : application http://localhost:8080, phpMyAdmin http://localhost:8081, Mailpit (e-mails interceptés) http://localhost:8025 (SMTP 1025), base MariaDB `127.0.0.1:3307`.

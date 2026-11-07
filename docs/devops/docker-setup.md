@@ -27,3 +27,34 @@ Vérifié le 2026-11-07 : `SELECT VERSION()` renvoie `11.4.10-MariaDB-ubu2404`.
 ## Prérequis
 
 Extension PHP `pdo_mysql` (Ubuntu/WSL : `sudo apt install php8.4-mysql`). Elle est présente sur ce poste.
+
+## Point ouvert
+
+`composer.lock` exige PHP >= 8.4 (doctrine-bundle 3.x, stimulus-bundle 3.7) alors que l'hébergement Hostinger vise PHP 8.3 : à trancher avant le déploiement.
+
+## phpMyAdmin (dev)
+
+- Service `phpmyadmin` (image `phpmyadmin:5.2`) défini dans `compose.override.yaml` uniquement, entre les marqueurs `###> phpmyadmin ###` / `###< phpmyadmin ###`.
+- URL : http://localhost:8081/
+- Connexion manuelle (pas d'auto-login) : utilisateur `app`, mot de passe `!ChangeMe!` (valeurs de développement par défaut de `compose.yaml`).
+- Démarrage : `docker compose up -d phpmyadmin`.
+- Ce service n'existe qu'en développement (override) et ne doit jamais être déployé en production.## Pile 100 % Docker (PHP, MariaDB, Nginx, Mailpit, phpMyAdmin)
+
+- `Dockerfile` (PHP 8.4-FPM Alpine, extensions `intl`, `pdo_mysql`, `opcache`, `zip`) : cible `dev` (code monté en volume, `composer install` au premier démarrage via `docker/php/entrypoint-dev.sh`) et cible `prod` (code embarqué, `--no-dev`, assets compilés, utilisateur `www-data`).
+- `compose.yaml` : services `php`, `web` (Nginx, http://localhost:8080) et `database`. `DATABASE_URL` et `MAILER_DSN` sont injectés dans le conteneur `php` (hôte `database:3306`, `mailer:1025`).
+- `compose.override.yaml` : port 3307 de la base, Mailpit (interface http://localhost:8025, SMTP 1025), phpMyAdmin (http://localhost:8081).
+- `docker/nginx/default.conf`, `.dockerignore`.
+
+Aucune installation locale de PHP ou de MariaDB n'est nécessaire : tout se lance dans les conteneurs.
+
+```bash
+docker compose up -d --build
+docker compose exec php php bin/console about
+docker compose exec php php bin/console make:entity
+docker compose exec php php bin/console doctrine:migrations:migrate
+docker compose exec php composer require <paquet>
+docker compose exec php php bin/phpunit
+docker build --target prod -t instruments_de_musique:prod .
+```
+
+Attention : `composer.lock` exige PHP >= 8.4 (doctrine-bundle 3.x, stimulus-bundle 3.7) alors que l'hébergement Hostinger vise PHP 8.3 : à trancher avant le déploiement.

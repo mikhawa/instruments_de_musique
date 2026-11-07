@@ -10,9 +10,22 @@ services:
   mailer:
     image: axllent/mailpit
     ports:
-      - "1025"
-      - "8025"
+      - "1025:1025"
+      - "8025:8025"
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
 ###< symfony/mailer ###
+
+###> phpmyadmin ###
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+    ports:
+      - "8081:80"
+###< phpmyadmin ###
