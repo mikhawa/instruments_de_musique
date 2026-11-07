@@ -12,7 +12,7 @@
 
 https://github.com/WebDevCF2m/instruments_de_musique
 
-Le répertoire sera sous WSL (`/home/formaweb/instruments_de_musique`);.
+Le répertoire sera sous WSL (`/home/formaweb/instruments_de_musique` au travail, `/home/mikhawa/instruments_de_musique` à la maison);.
 
 ## Agents spécialisés
 
@@ -31,6 +31,13 @@ Format : YYYY-MM-DD_HH-MM_Description-courte.md
 Vérifier le dernier numéro existant avant de créer un nouveau fichier
 Afficher les agents qui sont intervenus et leur niveau : <haiku|sonnet|opus>.
 Contenu minimal : date, fichier(s) modifié(s), résumé des changements, raison
+
+## Mémoire partagée
+
+La mémoire de Claude est versionnée dans `.claude/memoire/` (partagée entre les postes via git) et **remplace la mémoire locale** `~/.claude/projects/.../memory/` : toujours lire et écrire les mémoires dans ce dossier. Format et règles : `.claude/memoire/README.md`. Aucun secret dedans (dépôt public).
+
+Index chargé à chaque session :
+@.claude/memoire/MEMORY.md
 
 ## Architecture notes
 
