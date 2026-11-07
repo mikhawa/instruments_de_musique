@@ -5,7 +5,7 @@ Toute tâche est déléguée à un sous-agent de `.claude/agents/`. Choisir le *
 | Niveau | Quand l'utiliser | Agents |
 |--------|------------------|--------|
 | **haiku** | Tâches mécaniques, bien cadrées, peu de raisonnement : lancer des commandes, rédiger, CRUD standard | `verificateur`, `redacteur-docs`, `admin-crud` |
-| **sonnet** | Développement courant : écrire/modifier du code, tests, migrations, Docker/CI | `dev-api`, `dev-react`, `migrations`, `testeur`, `devops` |
+| **sonnet** | Développement courant : écrire/modifier du code, tests, migrations, Docker/CI | `dev-api`, `dev-react`, `designer`, `migrations`, `testeur`, `devops` |
 | **opus** | Raisonnement profond, décisions difficiles à défaire, analyse transversale | `architecte`, `auditeur-securite`, `debogueur` |
 
 ## Arbre de décision
@@ -15,11 +15,12 @@ Toute tâche est déléguée à un sous-agent de `.claude/agents/`. Choisir le *
 3. Authentification, formulaires, uploads, droits, mise en production ? → `auditeur-securite` (en relecture)
 4. Entités / schéma BDD ? → `migrations`
 5. Contrôleurs, services, repositories, formulaires, logique PHP ? → `dev-api`
-6. Templates Twig, Stimulus, Turbo, CSS, JS via importmap ? → `dev-react`
-7. Back-office EasyAdmin standard (CrudController simple) ? → `admin-crud`
-8. Écrire ou compléter des tests PHPUnit ? → `testeur`
-9. Docker, GitHub Actions, déploiement Hostinger ? → `devops`
-10. Documentation (README, docs/, documentation-dev/) ? → `redacteur-docs`
+6. Apparence : mise en page, CSS, responsive, accessibilité visuelle, thème de formulaires, pages d'erreur ? → `designer`
+7. Comportement front : contrôleurs Stimulus fonctionnels, Turbo, lecteur audio, JS via importmap, intégration des données dans Twig ? → `dev-react`
+8. Back-office EasyAdmin standard (CrudController simple) ? → `admin-crud`
+9. Écrire ou compléter des tests PHPUnit ? → `testeur`
+10. Docker, GitHub Actions, déploiement Hostinger ? → `devops`
+11. Documentation (README, docs/, documentation-dev/) ? → `redacteur-docs`
 
 ## Règles transverses
 
