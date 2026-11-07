@@ -1,35 +1,48 @@
-# CLAUDE.md
+## Projet instruments de musique
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+**Objectif** : Présentation d'une famille d'instruments de musique (je vais prendre spécifiquement la famille des bois). Histoire de cette famille d'instrument sur l'accueil, puis présentation de chaque instrument sur une page dédiée à chaque instrument. Chaque instrument aura sa propre page avec un texte de présentation, une image et un son. Plusieurs instruments peuvent avoir plusieurs modèles et donc des pages différentes.  Il y aura un menu pour naviguer entre les pages (par famille puis par instruments). 
 
-## Project
+**Public cible** : Passionnés de musique et de bois.
 
-"Instruments de musique" — a Symfony 7.4 LTS `--webapp` project (PHP ≥ 8.2, PHP 8.4 used in dev) built as a CF2m training project. It is currently a fresh skeleton: `src/Controller`, `src/Entity`, `src/Repository` and `migrations/` are empty. The README (in French) documents setup steps under WSL2 on Windows 11; keep its step-by-step style ("Etape N") when adding to it. GitHub: https://github.com/WebDevCF2m/instruments_de_musique
+**Langue du projet** : Ce projet se fait entièrement en français : code (commentaires, messages de validation, noms de commits), documentation, et échanges. Par contre, il sera dans un second temps mis en anglais, Espagnol etc...
 
-The repo lives inside WSL (`/home/formaweb/instruments_de_musique`); run PHP/Symfony commands from a WSL shell, not Windows PowerShell.
+**Stack** : Symfony 7.4 LTS --webapp | PHP 8.3  MariaDB 11.4 | Docker en development | ImportMap.
 
-## Commands
+**Environnements** : dev (Docker local) → production (GitHub CI) --> VPS  SSH (Hostinger) avec MariaDB 11.4 et PHP 8.3.
 
-```bash
-symfony serve -d                      # local web server (Symfony CLI)
-docker compose up -d                  # PostgreSQL 16 (+ Mailpit via compose.override.yaml)
-php bin/console make:entity           # maker-bundle generators (make:controller, make:form, make:crud...)
-php bin/console make:migration
-php bin/console doctrine:migrations:migrate
-php bin/console importmap:require <pkg>   # add a JS dependency (no npm/webpack)
-php bin/console messenger:consume async   # process async messages (emails, notifications)
+https://github.com/WebDevCF2m/instruments_de_musique
 
-php bin/phpunit                                   # all tests
-php bin/phpunit tests/Path/To/SomeTest.php        # single file
-php bin/phpunit --filter testMethodName           # single test
-```
+Le répertoire sera sous WSL (`/home/formaweb/instruments_de_musique`);.
 
-PHPUnit (v13) is configured with `failOnDeprecation`, `failOnNotice` and `failOnWarning` — deprecations in `src/` fail the suite. Tests run with `APP_ENV=test` (`.env.test`).
+## Agents spécialisés
+
+Toujours déléguer aux sous-agents de .claude/agents/ (règles de choix : .claude/models.md) :
+
+Haiku : verificateur (tests + lint), redacteur-docs, admin-crud (EasyAdmin simple)
+Sonnet : dev-api, dev-react, migrations, testeur, devops
+Opus : architecte, auditeur-securite, debogueur
+
+Toute modification de code se termine par un passage de verificateur.
+
+## Commits et documentation
+Claude ne peut pas faire de commits lui-même, ni créer de branche, mais il doit générer des messages de documentation à chaque action dans le dossier documentation-dev Toujours utiliser le format suivant :
+
+Format : YYYY-MM-DD_HH-MM_Description-courte.md
+Vérifier le dernier numéro existant avant de créer un nouveau fichier
+Afficher les agents qui sont intervenus et leur niveau : <haiku|sonnet|opus>.
+Contenu minimal : date, fichier(s) modifié(s), résumé des changements, raison
 
 ## Architecture notes
 
-- **Frontend**: AssetMapper + importmap (`importmap.php`), no Node build step. Entry point `assets/app.js`; Stimulus controllers in `assets/controllers/` (auto-registered via `assets/stimulus_bootstrap.js`), Turbo enabled. Templates in `templates/` (Twig, extend `base.html.twig`).
-- **Database**: Doctrine ORM 3 with attribute mapping; `DATABASE_URL` in `.env` defaults to PostgreSQL 16 (matches `compose.yaml`). Override locally in `.env.local` (git-ignored), not in `.env`.
-- **Messenger**: async transport is Doctrine (`MESSENGER_TRANSPORT_DSN=doctrine://default`); emails, chat and SMS messages are routed to `async`, so they are not sent unless a worker runs `messenger:consume`. `MAILER_DSN` is `null://null` by default.
-- **Services**: autowired/autoconfigured from `src/` (`config/services.yaml`); routes are loaded from controller attributes.
-- Default locale is `en`; translations go in `translations/`.
+- **Frontend**: AssetMapper + importmap (`importmap.php`),pas de build node. point d'entrée `assets/app.js`; Stimulus controllers dans `assets/controllers/` (auto-enregistré via `assets/stimulus_bootstrap.js`), Turbo enabled. Templates dans `templates/` (Twig, extend `base.html.twig`).
+- **Database**: Doctrine ORM 3 avec l'attribute mapping; `DATABASE_URL` dans `.env` sera en MariaDB 11.4 (ou MySQL 8.1) pour dev et prod; migrations via `doctrine:migrations`.
+
+## Documentation de référence
+
+À lire seulement quand la tâche le demande :
+
+- Architecture : docs/architecture/overview.md
+- Schéma BDD : docs/architecture/database-schema.md
+- Décisions : docs/architecture/decisions/
+- Docker : docs/devops/docker-setup.md
+- GitHub Actions : docs/devops/github-actions.md

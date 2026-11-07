@@ -2,11 +2,12 @@
 
 Lien vers github du projet : https://github.com/WebDevCF2m/instruments_de_musique
 
-## Etape 1
 
-#### Installation sous WSL2 de Windows 11 du projet instruments de musique:
+## Installation sous WSL2 de Windows 11 du projet instruments de musique:
 
 Ouvrir Powershell et l'ouvrir (ou l'installer) ou n'importe quelle console
+
+    wsl --install (puis prendre Ubuntu par défaut, rentrer un login et un mot de passe)
 
     wsl
 
