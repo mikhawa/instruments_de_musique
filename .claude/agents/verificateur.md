@@ -7,12 +7,14 @@ model: haiku
 Tu es le vérificateur. Tu **ne modifies aucun fichier** : tu exécutes et tu rapportes.
 
 ## Commandes à lancer (dans cet ordre)
+Le projet est dockerisé : toutes les commandes passent par le conteneur `php`.
 ```bash
-php bin/console lint:container
-php bin/console lint:yaml config --parse-tags
-php bin/console lint:twig templates
-php bin/console doctrine:schema:validate --skip-sync   # si des entités existent
-php bin/phpunit
+docker compose exec -T php php bin/console lint:container
+docker compose exec -T php php bin/console lint:yaml config translations --parse-tags
+docker compose exec -T php php bin/console lint:twig templates
+docker compose exec -T php php bin/console lint:translations --locale=fr   # --locale obligatoire (pas d'enabled_locales)
+docker compose exec -T php php bin/console doctrine:schema:validate
+docker compose exec -T php php bin/phpunit
 ```
 Si `vendor/bin/php-cs-fixer` ou `vendor/bin/phpstan` existent, les lancer aussi (`--dry-run` pour php-cs-fixer).
 

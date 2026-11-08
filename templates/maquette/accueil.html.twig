@@ -1,0 +1,72 @@
+{% extends 'maquette/_layout.html.twig' %}
+
+{% block title %}{{ 'interface.accueil.titre'|trans }} - {{ 'interface.site.nom'|trans }}{% endblock %}
+
+{% block contenu %}
+    <header class="entete">
+        <h1 class="titre-page">{{ 'interface.accueil.titre'|trans }}</h1>
+        <p class="chapeau">{{ 'interface.accueil.chapeau'|trans }}</p>
+    </header>
+
+    <section class="frise" aria-labelledby="titre-frise">
+        <h2 id="titre-frise" class="frise__titre">{{ 'interface.accueil.frise'|trans }}</h2>
+        <ol class="frise__liste">
+            <li class="frise__etape">
+                <p class="frise__date">Antiquité</p>
+                <div class="frise__texte">
+                    <h3>L'aulos grec</h3>
+                    <p>Les flûtes sont bien plus anciennes : des tuyaux en os percés de trous, vieux d'environ 40 000 ans, ont été retrouvés en Allemagne. Dans la Grèce antique, l'aulos, un tuyau double muni d'une anche, accompagne les chants, les banquets et le théâtre.</p>
+                </div>
+            </li>
+            <li class="frise__etape">
+                <p class="frise__date">Moyen Âge et Renaissance</p>
+                <div class="frise__texte">
+                    <h3>Chalémies, flûtes à bec et douçaines</h3>
+                    <p>Les instruments se construisent par familles de tailles différentes, jouées en ensemble. La chalémie à anche double annonce le hautbois, la douçaine annonce le basson.</p>
+                </div>
+            </li>
+            <li class="frise__etape">
+                <p class="frise__date">Seconde moitié du XVIIᵉ siècle</p>
+                <div class="frise__texte">
+                    <h3>Le hautbois des Hotteterre</h3>
+                    <p>À la cour de Louis XIV, les facteurs Hotteterre et Philidor affinent la chalémie : le hautbois baroque, au son plus doux et plus nuancé, est né. La même famille de facteurs perfectionne la flûte traversière et le basson.</p>
+                </div>
+            </li>
+            <li class="frise__etape">
+                <p class="frise__date">Vers 1700</p>
+                <div class="frise__texte">
+                    <h3>Du chalumeau à la clarinette</h3>
+                    <p>À Nuremberg, le facteur Johann Christoph Denner est traditionnellement crédité de l'ajout d'une clé de registre au chalumeau, ce qui ouvre le registre aigu : la clarinette apparaît.</p>
+                </div>
+            </li>
+            <li class="frise__etape">
+                <p class="frise__date">1832–1847</p>
+                <div class="frise__texte">
+                    <h3>Le système Boehm</h3>
+                    <p>Theobald Boehm, flûtiste et facteur munichois, repense la flûte : anneaux mobiles en 1832, puis tube cylindrique en métal en 1847. Sa façon de répartir les trous et les clés sert ensuite de modèle à d'autres instruments.</p>
+                </div>
+            </li>
+            <li class="frise__etape">
+                <p class="frise__date">1839–1843</p>
+                <div class="frise__texte">
+                    <h3>La clarinette Boehm</h3>
+                    <p>Hyacinthe Klosé et le facteur Louis-Auguste Buffet adaptent à la clarinette le principe des anneaux de Boehm. Ce système domine aujourd'hui dans une grande partie du monde.</p>
+                </div>
+            </li>
+            <li class="frise__etape">
+                <p class="frise__date">Vers 1840</p>
+                <div class="frise__texte">
+                    <h3>Le saxophone d'Adolphe Sax</h3>
+                    <p>Adolphe Sax, facteur belge installé à Paris, conçoit un instrument à anche simple, au tube conique en métal : le saxophone, dont le brevet est déposé en 1846.</p>
+                </div>
+            </li>
+            <li class="frise__etape">
+                <p class="frise__date">XXᵉ siècle</p>
+                <div class="frise__texte">
+                    <h3>Oehler, Heckel et les écoles nationales</h3>
+                    <p>À Berlin, Oskar Oehler met au point la clarinette système Oehler, encore jouée en Allemagne et en Autriche. Le basson de la maison Heckel, issu des travaux de Carl Almenräder, devient la référence. Chaque tradition d'orchestre cultive sa sonorité.</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+{% endblock %}

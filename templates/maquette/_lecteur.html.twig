@@ -1,0 +1,10 @@
+{# Lecteur audio : contrat avec le contrôleur Stimulus « lecteur ». #}
+<div class="lecteur" data-controller="lecteur">
+  <audio data-lecteur-target="audio" preload="none" src="{{ asset('audio/exemple-clarinette.wav') }}">
+    Votre navigateur ne lit pas l'audio. <a href="{{ asset('audio/exemple-clarinette.wav') }}">Télécharger le son</a>.
+  </audio>
+  <button type="button" class="lecteur__bouton" data-lecteur-target="bouton" data-action="lecteur#basculer" aria-pressed="false">Écouter la clarinette</button>
+  <ol class="lecteur__trous" aria-hidden="true">
+    {% for i in 1..7 %}<li class="lecteur__trou" data-lecteur-target="trou"></li>{% endfor %}
+  </ol>
+</div>

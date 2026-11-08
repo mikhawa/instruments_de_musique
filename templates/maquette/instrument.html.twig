@@ -1,0 +1,78 @@
+{% extends 'maquette/_layout.html.twig' %}
+
+{% block title %}Clarinette - {{ 'interface.site.nom'|trans }}{% endblock %}
+
+{% block contenu %}
+    <article class="instrument">
+        <header class="entete">
+            <h1 class="titre-page">Clarinette</h1>
+        </header>
+
+        {# Image de remplacement : schéma de la clarinette « couchée » (photo réelle à venir). #}
+        <figure class="instrument__visuel">
+            <svg viewBox="0 0 1200 120" role="img" aria-label="Schéma de profil d'une clarinette posée à l'horizontale : bec, barillet, corps du haut, corps du bas et pavillon évasé, avec ses trous et ses clés." focusable="false">
+                <g class="schema" fill="none" stroke-linejoin="round" stroke-linecap="round">
+                    {# Bec et ligature #}
+                    <path class="schema__plein" d="M12 57 L118 44 L136 44 L136 76 L118 76 L12 63 Z"/>
+                    <rect class="schema__trait" x="78" y="40" width="30" height="40" rx="3"/>
+                    {# Barillet #}
+                    <rect class="schema__trait" x="136" y="43" width="60" height="34" rx="4"/>
+                    {# Corps du haut #}
+                    <rect class="schema__trait" x="196" y="41" width="400" height="38" rx="3"/>
+                    {# Corps du bas #}
+                    <rect class="schema__trait" x="596" y="41" width="360" height="38" rx="3"/>
+                    {# Pavillon #}
+                    <path class="schema__trait schema__pavillon" d="M956 41 H1010 Q1060 41 1086 16 H1138 V104 H1086 Q1060 79 1010 79 H956 Z"/>
+                    {# Bagues des tenons #}
+                    <path class="schema__trait" d="M196 41 V79 M596 41 V79 M956 41 V79 M1086 16 V104"/>
+                    {# Trous du corps du haut #}
+                    <circle class="schema__plein" cx="300" cy="60" r="7"/>
+                    <circle class="schema__plein" cx="360" cy="60" r="7"/>
+                    <circle class="schema__plein" cx="420" cy="60" r="7"/>
+                    <circle class="schema__trait" cx="520" cy="60" r="7"/>
+                    {# Trous du corps du bas #}
+                    <circle class="schema__plein" cx="680" cy="60" r="7"/>
+                    <circle class="schema__trait" cx="740" cy="60" r="7"/>
+                    <circle class="schema__trait" cx="800" cy="60" r="7"/>
+                    <circle class="schema__trait" cx="880" cy="60" r="7"/>
+                    {# Clés : tiges et palettes #}
+                    <path class="schema__trait" d="M240 41 V30 M240 30 H280 M470 41 V28 M470 28 H520 M640 41 V30 M640 30 H700 M850 41 V30 M850 30 H920"/>
+                    <rect class="schema__trait" x="280" y="24" width="22" height="12" rx="6"/>
+                    <rect class="schema__trait" x="520" y="22" width="22" height="12" rx="6"/>
+                    <rect class="schema__trait" x="700" y="24" width="22" height="12" rx="6"/>
+                    <rect class="schema__trait" x="920" y="24" width="22" height="12" rx="6"/>
+                    {# Clés de petit doigt, en bas #}
+                    <path class="schema__trait" d="M780 79 V92 M780 92 H840"/>
+                    <rect class="schema__trait" x="840" y="86" width="22" height="12" rx="6"/>
+                </g>
+            </svg>
+            <figcaption class="instrument__legende">Schéma provisoire, en attendant la photographie de l'instrument.</figcaption>
+        </figure>
+
+        <div class="instrument__corps">
+            <div class="instrument__texte">
+                <p>La clarinette est un instrument à vent de la famille des bois. Le son naît d'une anche simple, fine lamelle de roseau fixée sur le bec par une ligature : lorsque l'air passe, l'anche bat contre le bec et fait vibrer la colonne d'air contenue dans le tube.</p>
+                <p>Son tube est presque cylindrique, ce qui lui donne un comportement particulier : en ouvrant la clé de registre, on ne monte pas d'une octave mais d'une douzième. Pour couvrir plus de trois octaves, le clarinettiste passe donc du registre grave, dit du chalumeau, au registre médium, puis au registre aigu, dont les timbres sont très contrastés.</p>
+                <p>Le corps est traditionnellement taillé dans le grenadille, un bois africain très dense et sombre, mais on trouve aussi des clarinettes en ébonite ou en matière synthétique, plus résistantes pour l'étude. Les trous et les clés, selon le système Boehm ou le système Oehler, permettent de boucher ou d'ouvrir les trous que les doigts ne peuvent atteindre.</p>
+                <p>La clarinette a trouvé sa place à l'orchestre à la fin du XVIIIᵉ siècle. Mozart lui a consacré son concerto en la majeur et un quintette, tous deux pensés pour la clarinette en la. On l'entend aussi dans le jazz, la musique klezmer et les musiques traditionnelles des Balkans.</p>
+            </div>
+
+            <div class="instrument__lateral">
+                <section class="instrument__lecteur" aria-labelledby="titre-lecteur">
+                    <h2 id="titre-lecteur" class="titre-bloc">{{ 'interface.lecteur.titre'|trans }}</h2>
+                    {{ include('maquette/_lecteur.html.twig') }}
+                </section>
+
+                <nav class="instrument__modeles" aria-labelledby="titre-modeles">
+                    <h2 id="titre-modeles" class="titre-bloc">{{ 'interface.modeles.titre'|trans }}</h2>
+                    <ul class="modeles">
+                        <li><a href="#">Clarinette en si♭</a></li>
+                        <li><a href="#">Clarinette en la</a></li>
+                        <li><a href="#">Clarinette en mi♭</a></li>
+                        <li><a href="#">Clarinette basse</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </article>
+{% endblock %}

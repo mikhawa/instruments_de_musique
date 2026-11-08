@@ -1,3 +1,693 @@
+/*
+ * Feuille de style du site « Les bois » - direction « la table de doigtés ».
+ * Voir docs/architecture/decisions/0002-direction-visuelle.md
+ *
+ * Le motif des trous de doigté n'apparaît qu'à trois endroits :
+ * le menu (.tablature), le lecteur audio (.lecteur__trou) et l'état actif / focus (.rail__lien).
+ * Tout le reste reste sobre. Mobile d'abord.
+ */
+
+/* ------------------------------------------------------------------
+   Polices auto-hébergées (SIL OFL 1.1, voir assets/fonts/OFL-*.txt)
+   Instrument Sans 5.3.0 (axes wght + wdth) et Alegreya 5.3.0 (axe wght),
+   fichiers @fontsource-variable. Pas de service tiers (RGPD).
+   ------------------------------------------------------------------ */
+@font-face {
+    font-family: "Instrument Sans";
+    font-style: normal;
+    font-weight: 400 700;
+    font-stretch: 75% 100%;
+    font-display: swap;
+    src: url("../fonts/instrument-sans-latin-ext-wdth-normal.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+    font-family: "Instrument Sans";
+    font-style: normal;
+    font-weight: 400 700;
+    font-stretch: 75% 100%;
+    font-display: swap;
+    src: url("../fonts/instrument-sans-latin-wdth-normal.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: "Alegreya";
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url("../fonts/alegreya-latin-ext-wght-normal.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+    font-family: "Alegreya";
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url("../fonts/alegreya-latin-wght-normal.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: "Alegreya";
+    font-style: italic;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url("../fonts/alegreya-latin-ext-wght-italic.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+    font-family: "Alegreya";
+    font-style: italic;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url("../fonts/alegreya-latin-wght-italic.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Police de secours ciblée : Noto Music 5.3.0 (@fontsource, SIL OFL 1.1, OFL-NotoMusic.txt).
+   Limitée aux altérations ♭ ♮ ♯ (U+266D-266F), absentes d'Alegreya et d'Instrument Sans :
+   le navigateur ne la télécharge que si la page contient l'un de ces signes.
+   Graisse unique 400 déclarée sur toute la plage pour éviter le faux gras. */
+@font-face {
+    font-family: "Alteration";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("../fonts/noto-music-music-400-normal.woff2") format("woff2");
+    unicode-range: U+266D-266F;
+    size-adjust: 175%;
+}
+
+/* ------------------------------------------------------------------
+   Jetons de design
+   Contrastes calculés sur --maillechort (#E6E8E3) :
+   grenadille 12,93:1 ; roseau 5,48:1 (AA texte) ; roseau-filet 2,89:1 ;
+   buis 1,71:1 (jamais pour du texte) ; liège 1,85:1 (bordures discrètes).
+   Texte grenadille sur buis : 7,55:1.
+   ------------------------------------------------------------------ */
+:root {
+    /* Couleurs */
+    --grenadille: #2b1e26;     /* texte, traits forts */
+    --maillechort: #e6e8e3;    /* fond */
+    --buis: #d4ae45;           /* accent graphique : trou bouché, état actif */
+    --roseau: #5f5d36;         /* texte secondaire (roseau #8c8a5a assombri pour passer AA) */
+    --roseau-filet: #8c8a5a;   /* roseau d'origine : filets et ornements uniquement */
+    --liege: #b9a99a;          /* bordures discrètes */
+
+    /* Typographie */
+    --police-titre: "Instrument Sans", "Alteration", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --police-texte: "Alegreya", "Alteration", Georgia, "Times New Roman", serif;
+    --interligne: 1.6;
+    --mesure: 65ch;
+
+    /* Échelle (ratio 1,25) à partir de 1,125rem */
+    --t-moins-1: 0.9rem;
+    --t-0: 1.125rem;
+    --t-1: 1.406rem;
+    --t-2: 1.758rem;
+    --t-3: 2.197rem;
+    --t-4: 2.747rem;
+    --t-5: 3.433rem;
+
+    /* Espacements */
+    --e-1: 0.25rem;
+    --e-2: 0.5rem;
+    --e-3: 1rem;
+    --e-4: 1.5rem;
+    --e-5: 2.5rem;
+    --e-6: 4rem;
+
+    /* Divers */
+    --cible-tactile: 2.75rem;  /* 44px minimum */
+    --largeur-rail: 15.5rem;
+    --largeur-max: 62rem;      /* largeur maximale de la zone principale (padding compris) */
+    --largeur-lateral: 18rem;
+    --trou: 1.1rem;
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 175%;
+    text-size-adjust: 175%;
+    scroll-padding-top: var(--e-4);
+}
+
 body {
-    background-color: skyblue;
+    margin: 0;
+    background-color: var(--maillechort);
+    color: var(--grenadille);
+    font-family: var(--police-texte);
+    font-size: var(--t-0);
+    line-height: var(--interligne);
+    font-kerning: normal;
+}
+
+h1,
+h2,
+h3 {
+    margin: 0 0 var(--e-3);
+    font-family: var(--police-titre);
+    font-stretch: 80%;
+    font-weight: 600;
+    line-height: 1.15;
+    text-wrap: balance;
+}
+
+h1 { font-size: var(--t-4); font-weight: 700; }
+h2 { font-size: var(--t-2); }
+h3 { font-size: var(--t-1); font-weight: 500; }
+
+p {
+    margin: 0 0 var(--e-3);
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: var(--roseau);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+}
+
+a:hover {
+    text-decoration-thickness: 3px;
+}
+
+/* Focus clavier visible partout */
+:focus-visible {
+    outline: 3px solid var(--grenadille);
+    outline-offset: 3px;
+}
+
+/* La cible du lien d'évitement ne montre pas de cadre */
+main:focus {
+    outline: none;
+}
+
+svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Lien d'évitement : visible seulement au focus */
+.evitement {
+    position: absolute;
+    left: var(--e-3);
+    top: -4rem;
+    z-index: 10;
+    padding: var(--e-2) var(--e-3);
+    background: var(--grenadille);
+    color: var(--maillechort);
+    font-family: var(--police-titre);
+    font-stretch: 85%;
+}
+
+.evitement:focus {
+    top: var(--e-3);
+}
+
+/* ------------------------------------------------------------------
+   Mise en page : rail + colonne de contenu
+   ------------------------------------------------------------------ */
+.mise-en-page {
+    min-height: 100vh;
+}
+
+.colonne {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.contenu {
+    flex: 1;
+    width: 100%;
+    max-width: var(--largeur-max);
+    padding: var(--e-4) var(--e-3) var(--e-5);
+}
+
+.entete {
+    margin-bottom: var(--e-4);
+}
+
+.titre-page {
+    margin-bottom: var(--e-2);
+}
+
+.chapeau {
+    max-width: var(--mesure);
+    font-size: var(--t-1);
+    line-height: 1.45;
+    color: var(--roseau);
+}
+
+.titre-bloc {
+    font-size: var(--t-1);
+    margin-bottom: var(--e-2);
+}
+
+.pied {
+    padding: var(--e-3);
+    border-top: 1px solid var(--liege);
+    color: var(--roseau);
+    font-size: var(--t-moins-1);
+}
+
+.pied p {
+    margin: 0;
+}
+
+/* ------------------------------------------------------------------
+   Rail de navigation (mobile : <details> repliable)
+   ------------------------------------------------------------------ */
+.rail {
+    border-bottom: 1px solid var(--liege);
+}
+
+.rail__ouvrir {
+    display: flex;
+    align-items: center;
+    gap: var(--e-3);
+    min-height: var(--cible-tactile);
+    padding: 0 var(--e-3);
+    cursor: pointer;
+    font-family: var(--police-titre);
+    font-stretch: 80%;
+    font-weight: 600;
+    font-size: var(--t-1);
+    list-style: none;
+}
+
+.rail__ouvrir::-webkit-details-marker {
+    display: none;
+}
+
+/* Trois barres tracées en CSS (pas de caractère, pas d'image) */
+.rail__burger {
+    width: 1.5rem;
+    height: 2px;
+    background: currentColor;
+    box-shadow: 0 -7px currentColor, 0 7px currentColor;
+}
+
+.rail__corps {
+    padding: var(--e-2) var(--e-3) var(--e-4);
+}
+
+.rail__marque {
+    margin: 0 0 var(--e-3);
+    font-family: var(--police-titre);
+    font-stretch: 75%;
+    font-weight: 700;
+    font-size: var(--t-3);
+    line-height: 1;
+}
+
+.rail__famille {
+    margin: var(--e-4) 0 var(--e-1);
+    padding-top: var(--e-3);
+    border-top: 1px solid var(--roseau-filet);
+    font-size: var(--t-1);
+}
+
+.rail__lien {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--e-3);
+    min-height: var(--cible-tactile);
+    padding: var(--e-1) var(--e-2) var(--e-1) 1.75rem;
+    font-family: var(--police-titre);
+    font-stretch: 85%;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.rail__lien:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--roseau);
+}
+
+/* Trou bouché : pastille buis, visible sur la page courante et au focus clavier */
+.rail__lien::before {
+    content: "";
+    position: absolute;
+    left: 0.35rem;
+    top: 50%;
+    width: 0.9rem;
+    height: 0.9rem;
+    margin-top: -0.45rem;
+    border-radius: 50%;
+    background: var(--buis);
+    border: 2px solid var(--grenadille);
+    opacity: 0;
+}
+
+.rail__lien[aria-current="page"] {
+    font-weight: 700;
+}
+
+.rail__lien[aria-current="page"]::before,
+.rail__lien:focus-visible::before {
+    opacity: 1;
+}
+
+/* ------------------------------------------------------------------
+   Mini-tablature (menu) : trous ouverts = contour, bouchés = disque
+   ------------------------------------------------------------------ */
+.tablature {
+    display: inline-flex;
+    gap: 0.2rem;
+    flex-shrink: 0;
+}
+
+.tablature__trou {
+    width: 0.6rem;
+    height: 0.6rem;
+    border: 1.5px solid var(--roseau);
+    border-radius: 50%;
+}
+
+.tablature__trou--bouche {
+    background: var(--roseau);
+}
+
+/* ------------------------------------------------------------------
+   Frise chronologique (accueil)
+   ------------------------------------------------------------------ */
+.frise__titre {
+    /* Titre de section utile aux lecteurs d'écran ; discret à l'écran */
+    margin-bottom: var(--e-4);
+}
+
+.frise__liste {
+    position: relative;
+    max-width: 52rem;
+    padding-left: var(--e-4);
+    border-left: 2px solid var(--roseau-filet);
+}
+
+.frise__etape {
+    position: relative;
+    margin-bottom: var(--e-5);
+}
+
+.frise__etape:last-child {
+    margin-bottom: 0;
+}
+
+/* Petit repère horizontal sur le filet (pas un trou : le motif est réservé) */
+.frise__etape::before {
+    content: "";
+    position: absolute;
+    left: calc(-1 * var(--e-4) - 2px);
+    top: 0.75rem;
+    width: 1rem;
+    height: 2px;
+    background: var(--roseau-filet);
+}
+
+.frise__date {
+    margin: 0 0 var(--e-1);
+    font-family: var(--police-titre);
+    font-stretch: 75%;
+    font-weight: 700;
+    font-size: var(--t-1);
+    line-height: 1.3;
+}
+
+.frise__texte {
+    max-width: var(--mesure);
+}
+
+.frise__texte h3 {
+    margin-bottom: var(--e-1);
+}
+
+.frise__texte p {
+    margin: 0;
+}
+
+/* ------------------------------------------------------------------
+   Page instrument
+   ------------------------------------------------------------------ */
+.instrument__visuel {
+    margin: 0 0 var(--e-4);
+}
+
+.schema__trait {
+    stroke: var(--grenadille);
+    stroke-width: 3;
+    fill: var(--maillechort);
+}
+
+path.schema__trait {
+    fill: none;
+}
+
+path.schema__pavillon {
+    fill: var(--maillechort);
+}
+
+.schema__plein {
+    fill: var(--grenadille);
+    stroke: var(--grenadille);
+    stroke-width: 3;
+}
+
+.instrument__legende {
+    margin-top: var(--e-2);
+    color: var(--roseau);
+    font-size: var(--t-moins-1);
+}
+
+/* Mobile : ordre lecteur, texte, modèles (le conteneur latéral « disparaît ») */
+.instrument__corps {
+    display: grid;
+    gap: var(--e-4);
+}
+
+.instrument__lateral {
+    display: contents;
+}
+
+.instrument__lecteur { order: 1; }
+.instrument__texte { order: 2; max-width: var(--mesure); }
+.instrument__modeles { order: 3; }
+
+.instrument__texte p:last-child {
+    margin-bottom: 0;
+}
+
+.modeles li + li {
+    border-top: 1px solid var(--liege);
+}
+
+.modeles a {
+    display: flex;
+    align-items: center;
+    min-height: var(--cible-tactile);
+    font-family: var(--police-titre);
+    font-stretch: 85%;
+    font-weight: 500;
+}
+
+/* ------------------------------------------------------------------
+   Lecteur audio : un tronçon de corps d'instrument vertical (tube aux bords
+   grenadille, trous sur l'axe) et un bouton texte précédé d'une pastille
+   lecture / pause tracée en CSS. Les trous se bouchent au fil de la lecture
+   (classes ajoutées par le contrôleur Stimulus « lecteur »).
+   ------------------------------------------------------------------ */
+.lecteur {
+    display: flex;
+    align-items: center;
+    gap: var(--e-4);
+}
+
+.lecteur__bouton {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--e-3);
+    min-height: var(--cible-tactile);
+    padding: var(--e-1) var(--e-2) var(--e-1) 0;
+    border: 0;
+    background: transparent;
+    color: var(--grenadille);
+    font: inherit;
+    font-family: var(--police-titre);
+    font-stretch: 85%;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+}
+
+.lecteur__bouton:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--roseau);
+    text-underline-offset: 0.2em;
+}
+
+/* Pastille : disque grenadille + triangle « lecture » */
+.lecteur__bouton::before {
+    content: "";
+    flex-shrink: 0;
+    width: var(--cible-tactile);
+    height: var(--cible-tactile);
+    border: 2px solid var(--grenadille);
+    border-radius: 50%;
+    background: var(--grenadille);
+    transition: background-color 0.25s ease;
+}
+
+.lecteur__bouton::after {
+    content: "";
+    position: absolute;
+    left: 1.0625rem;
+    top: 50%;
+    width: 0.9rem;
+    height: 1.1rem;
+    margin-top: -0.55rem;
+    background: var(--maillechort);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+/* En lecture : pastille buis, icône pause (deux barres) */
+.lecteur.est-en-lecture .lecteur__bouton::before {
+    background: var(--buis);
+}
+
+.lecteur.est-en-lecture .lecteur__bouton::after {
+    left: 1.0625rem;
+    width: 0.2rem;
+    height: 1.1rem;
+    background: var(--grenadille);
+    box-shadow: 0.5rem 0 var(--grenadille);
+    clip-path: none;
+}
+
+.lecteur__bouton:focus-visible {
+    outline-offset: 3px;
+}
+
+.lecteur__bouton:disabled {
+    cursor: not-allowed;
+    color: var(--roseau);
+}
+
+.lecteur__bouton:disabled::before {
+    background: var(--liege);
+    border-color: var(--roseau);
+}
+
+/* Tronçon de tube : deux bords, trous alignés sur l'axe */
+.lecteur__trous {
+    order: -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 0.55rem;
+    width: 2.25rem;
+    padding: 0.6rem 0;
+    border-inline: 3px solid var(--grenadille);
+}
+
+.lecteur__trou {
+    width: var(--trou);
+    height: var(--trou);
+    border: 2px solid var(--grenadille);
+    border-radius: 50%;
+    background: transparent;
+    transition: background-color 0.25s ease;
+}
+
+.lecteur__trou.est-bouche {
+    background: var(--buis);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lecteur__trou,
+    .lecteur__bouton::before {
+        transition: none;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* ------------------------------------------------------------------
+   Bureau : rail à gauche, colonne latérale collante
+   ------------------------------------------------------------------ */
+@media (min-width: 48rem) {
+    .mise-en-page {
+        display: grid;
+        grid-template-columns: var(--largeur-rail) minmax(0, 1fr);
+    }
+
+    .rail {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        border-right: 1px solid var(--liege);
+        border-bottom: 0;
+    }
+
+    .rail__corps {
+        padding: var(--e-4) var(--e-3);
+    }
+
+    .contenu {
+        padding: var(--e-5) var(--e-5) var(--e-6);
+    }
+
+    h1 { font-size: var(--t-5); }
+}
+
+/* Bureau : le contrôleur Stimulus « rail » ouvre le <details> et pose
+   data-rail-bureau ; le bouton de menu disparaît alors. Sans JavaScript,
+   le <details> reste repliable et le bouton visible. */
+.rail[data-rail-bureau] > .rail__ouvrir {
+    display: none;
+}
+
+@media (min-width: 64rem) {
+    .instrument__corps {
+        grid-template-columns: minmax(0, var(--mesure)) minmax(15rem, var(--largeur-lateral));
+        justify-content: start;
+        align-items: start;
+        gap: var(--e-6);
+    }
+
+    .instrument__lateral {
+        display: grid;
+        gap: var(--e-5);
+        position: sticky;
+        top: var(--e-4);
+    }
+
+    .instrument__lecteur,
+    .instrument__texte,
+    .instrument__modeles {
+        order: 0;
+    }
 }

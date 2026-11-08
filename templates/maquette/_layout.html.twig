@@ -1,0 +1,17 @@
+{# Gabarit commun de la maquette : rail de navigation + zone de contenu. #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="mise-en-page">
+        {{ include('maquette/_menu.html.twig') }}
+        <div class="colonne">
+            <main class="contenu" id="contenu" tabindex="-1">
+                {% block contenu %}{% endblock %}
+            </main>
+            <footer class="pied">
+                <p>{{ 'interface.pied.mention'|trans }}</p>
+                <p>{{ 'interface.pied.maquette'|trans }}</p>
+            </footer>
+        </div>
+    </div>
+{% endblock %}

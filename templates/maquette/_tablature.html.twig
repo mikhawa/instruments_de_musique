@@ -1,0 +1,14 @@
+{#
+    Mini-tablature décorative : une rangée de trous de doigté.
+    Usage :
+        {% import 'maquette/_tablature.html.twig' as tablature %}
+        {{ tablature.rangee([1, 1, 0, 1, 0]) }}   {# 1 = trou bouché, 0 = trou ouvert #}
+    Purement décorative : masquée aux technologies d'assistance.
+#}
+{% macro rangee(doigtes) %}
+    <span class="tablature" aria-hidden="true">
+        {%- for trou in doigtes -%}
+            <span class="tablature__trou{{ trou ? ' tablature__trou--bouche' : '' }}"></span>
+        {%- endfor -%}
+    </span>
+{% endmacro %}

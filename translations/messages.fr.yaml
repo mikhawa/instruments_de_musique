@@ -1,0 +1,29 @@
+# Textes d'interface (français). Les fichiers messages.en.yaml, messages.es.yaml... suivront.
+interface:
+    site:
+        nom: 'Les bois'
+        description: 'Présentation de la famille des bois : histoire, instruments et modèles.'
+    evitement: 'Aller au contenu'
+    menu:
+        ouvrir: 'Menu'
+        instruments: 'Instruments'
+        famille: 'Famille des bois'
+        accueil: 'Histoire de la famille'
+        flute: 'Flûte'
+        hautbois: 'Hautbois'
+        clarinette: 'Clarinette'
+        basson: 'Basson'
+        saxophone: 'Saxophone'
+    lecteur:
+        ecouter: 'Écouter la clarinette'
+        titre: 'Le son'
+    modeles:
+        titre: 'Modèles'
+        navigation: 'Modèles de clarinettes'
+    pied:
+        mention: 'Site de présentation de la famille des bois.'
+        maquette: 'Maquette de design : contenu provisoire.'
+    accueil:
+        titre: 'Les bois, une famille née du souffle'
+        chapeau: 'Des tuyaux percés de trous aux mécaniques à clés : des millénaires d''instruments à vent en bois, racontés dans l''ordre.'
+        frise: 'Frise chronologique'

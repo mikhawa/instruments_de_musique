@@ -1,0 +1,58 @@
+{#
+    Rail de navigation : famille puis instruments.
+    Mobile : <details> repliable ; bureau : rail toujours déployé par le contrôleur Stimulus « rail » (voir app.css).
+    Les doigtés sont décoratifs et simplifiés (à faire valider).
+#}
+{% import 'maquette/_tablature.html.twig' as tablature %}
+{% set route_courante = app.request.attributes.get('_route') %}
+<details class="rail" data-controller="rail">
+    <summary class="rail__ouvrir">
+        <span class="rail__burger" aria-hidden="true"></span>
+        {{ 'interface.menu.ouvrir'|trans }}
+    </summary>
+    <div class="rail__corps">
+        <p class="rail__marque">{{ 'interface.site.nom'|trans }}</p>
+        <nav aria-label="{{ 'interface.menu.instruments'|trans }}">
+            <ul class="rail__liste">
+                <li>
+                    <a class="rail__lien" href="{{ path('maquette_accueil') }}"{% if route_courante == 'maquette_accueil' %} aria-current="page"{% endif %}>
+                        {{ 'interface.menu.accueil'|trans }}
+                    </a>
+                </li>
+            </ul>
+            <h2 class="rail__famille">{{ 'interface.menu.famille'|trans }}</h2>
+            <ul class="rail__liste">
+                <li>
+                    <a class="rail__lien" href="#">
+                        {{ 'interface.menu.flute'|trans }}
+                        {{ tablature.rangee([1, 1, 1, 0, 1, 0, 0]) }}
+                    </a>
+                </li>
+                <li>
+                    <a class="rail__lien" href="#">
+                        {{ 'interface.menu.hautbois'|trans }}
+                        {{ tablature.rangee([1, 1, 0, 1, 0, 0]) }}
+                    </a>
+                </li>
+                <li>
+                    <a class="rail__lien" href="{{ path('maquette_instrument') }}"{% if route_courante == 'maquette_instrument' %} aria-current="page"{% endif %}>
+                        {{ 'interface.menu.clarinette'|trans }}
+                        {{ tablature.rangee([1, 1, 1, 0, 0, 1, 0]) }}
+                    </a>
+                </li>
+                <li>
+                    <a class="rail__lien" href="#">
+                        {{ 'interface.menu.basson'|trans }}
+                        {{ tablature.rangee([1, 0, 1, 1, 0]) }}
+                    </a>
+                </li>
+                <li>
+                    <a class="rail__lien" href="#">
+                        {{ 'interface.menu.saxophone'|trans }}
+                        {{ tablature.rangee([0, 1, 1, 1, 0, 0]) }}
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</details>
