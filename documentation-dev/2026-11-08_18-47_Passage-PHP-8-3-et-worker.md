@@ -1,7 +1,7 @@
 # Passage PHP 8.3 et ajout du worker Messenger
 
 - **Date** : 2026-11-08 18:47
-- **Branche** : feature/01-install-claude
+- **Branche** : feature/05-database
 
 ## Agents intervenus
 
