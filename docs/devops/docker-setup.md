@@ -26,11 +26,11 @@ Vérifié le 2026-11-07 : `SELECT VERSION()` renvoie `11.4.10-MariaDB-ubu2404`.
 
 ## Prérequis
 
-Extension PHP `pdo_mysql` (Ubuntu/WSL : `sudo apt install php8.4-mysql`). Elle est présente sur ce poste.
+Extension PHP `pdo_mysql` (Ubuntu/WSL : `sudo apt install php8.3-mysql`). Elle est présente sur ce poste.
 
-## Point ouvert
+## Version de PHP
 
-`composer.lock` exige PHP >= 8.4 (doctrine-bundle 3.x, stimulus-bundle 3.7) alors que l'hébergement Hostinger vise PHP 8.3 : à trancher avant le déploiement.
+PHP 8.3 partout (Docker et Hostinger). `composer.json` impose `config.platform.php = 8.3.0` : composer résout toujours pour 8.3. Pour cela, certains paquets sont restés sur la version majeure précédente : `doctrine/doctrine-bundle` ^2.19, `doctrine/doctrine-migrations-bundle` ^3.7, `symfony/stimulus-bundle` et `symfony/ux-turbo` ^2.36, `phpunit/phpunit` ^12.5 (les versions plus récentes exigent PHP 8.4).
 
 ## phpMyAdmin (dev)
 
@@ -40,8 +40,8 @@ Extension PHP `pdo_mysql` (Ubuntu/WSL : `sudo apt install php8.4-mysql`). Elle e
 - Démarrage : `docker compose up -d phpmyadmin`.
 - Ce service n'existe qu'en développement (override) et ne doit jamais être déployé en production.## Pile 100 % Docker (PHP, MariaDB, Nginx, Mailpit, phpMyAdmin)
 
-- `Dockerfile` (PHP 8.4-FPM Alpine, extensions `intl`, `pdo_mysql`, `opcache`, `zip`) : cible `dev` (code monté en volume, `composer install` au premier démarrage via `docker/php/entrypoint-dev.sh`) et cible `prod` (code embarqué, `--no-dev`, assets compilés, utilisateur `www-data`).
-- `compose.yaml` : services `php`, `web` (Nginx, http://localhost:8080) et `database`. `DATABASE_URL` et `MAILER_DSN` sont injectés dans le conteneur `php` (hôte `database:3306`, `mailer:1025`).
+- `Dockerfile` (PHP 8.3-FPM Alpine, extensions `intl`, `pdo_mysql`, `opcache`, `zip`) : cible `dev` (code monté en volume, `composer install` au premier démarrage via `docker/php/entrypoint-dev.sh`) et cible `prod` (code embarqué, `--no-dev`, assets compilés, utilisateur `www-data`).
+- `compose.yaml` : services `php`, `worker`, `web` (Nginx, http://localhost:8080) et `database`. `DATABASE_URL` et `MAILER_DSN` sont injectés dans les conteneurs `php` et `worker` (hôte `database:3306`, `mailer:1025`).
 - `compose.override.yaml` : port 3307 de la base, Mailpit (interface http://localhost:8025, SMTP 1025), phpMyAdmin (http://localhost:8081).
 - `docker/nginx/default.conf`, `.dockerignore`.
 
@@ -57,4 +57,11 @@ docker compose exec php php bin/phpunit
 docker build --target prod -t instruments_de_musique:prod .
 ```
 
-Attention : `composer.lock` exige PHP >= 8.4 (doctrine-bundle 3.x, stimulus-bundle 3.7) alors que l'hébergement Hostinger vise PHP 8.3 : à trancher avant le déploiement.
+## Worker Messenger (dev)
+
+- Service `worker` : même image (cible `dev`), même volume et mêmes variables que `php`. Commande : `php bin/console messenger:consume async -vv --time-limit=3600 --memory-limit=128M`, `restart: unless-stopped`, démarre quand la base est saine.
+- Il envoie les e-mails mis en file (transport `async`, table `messenger_messages`) vers Mailpit.
+- En dev, `MESSENGER_TRANSPORT_DSN` vaut `doctrine://default?auto_setup=1` dans `compose.yaml` : la table est créée automatiquement. Le `.env` garde `auto_setup=0` : en production, la table devra être créée par une migration (ou `messenger:setup-transports` au déploiement).
+- **Après toute modification du code PHP, redémarrer le worker** : `docker compose restart worker` (il garde le code en mémoire).
+- Logs : `docker compose logs worker --tail=20`.
+- Test : `docker compose exec php php bin/console mailer:test test@example.com` envoie directement (sans file) ; seul un `MailerInterface::send()` applicatif passe par le worker. Vérifier l'arrivée : `curl -s http://localhost:8025/api/v1/messages`.

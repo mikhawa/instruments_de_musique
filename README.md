@@ -3,7 +3,7 @@
 Lien vers github du projet : https://github.com/WebDevCF2m/instruments_de_musique
 
 
-## Installation sous WSL2 de Windows 11 du projet instruments de musique:
+## Installation sous WSL2 de Windows 11 du projet instruments de musique :
 
 Ouvrir Powershell et l'ouvrir (ou l'installer) ou n'importe quelle console
 
@@ -13,8 +13,8 @@ Ouvrir Powershell et l'ouvrir (ou l'installer) ou n'importe quelle console
 
     sudo apt update
 
-    # PHP 8.4
-    sudo apt install php8.4-common php8.4-{bcmath,bz2,curl,gd,gmp,intl,mbstring,opcache,readline,xml,zip}
+    # PHP 8.3
+    sudo apt install php8.3-common php8.3-{bcmath,bz2,curl,gd,gmp,intl,mbstring,opcache,readline,xml,zip}
 
     # node.js 22.22
     sudo apt install nodejs
@@ -71,4 +71,4 @@ Les commandes s'exécutent dans les conteneurs depuis la racine :
     docker compose up -d --build
     docker compose exec php php bin/console <commande>
 
-Adresses locales : application http://localhost:8080, phpMyAdmin http://localhost:8081, Mailpit (e-mails interceptés) http://localhost:8025 (SMTP 1025), base MariaDB `127.0.0.1:3307`.
+Adresses locales : application http://localhost:8080, phpMyAdmin http://localhost:8081, worker Messenger (service `worker`, sans port ; logs : `docker compose logs worker`, à redémarrer après modification du code PHP : `docker compose restart worker`), Mailpit (e-mails interceptés) http://localhost:8025 (SMTP 1025), base MariaDB `127.0.0.1:3307`.

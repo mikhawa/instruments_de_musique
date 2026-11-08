@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
-# Images du projet : cibles "dev" et "prod" (PHP 8.4, imposé par composer.lock).
+# Images du projet : cibles "dev" et "prod" (PHP 8.3).
 
-FROM php:8.4-fpm-alpine AS base
+FROM php:8.3-fpm-alpine AS base
 COPY --from=ghcr.io/mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 RUN install-php-extensions intl pdo_mysql opcache zip
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

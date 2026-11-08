@@ -7,6 +7,25 @@ services:
     environment:
       DATABASE_URL: "mysql://${MARIADB_USER:-app}:${MARIADB_PASSWORD:-!ChangeMe!}@database:3306/${MARIADB_DATABASE:-app}?serverVersion=11.4.0-MariaDB&charset=utf8mb4"
       MAILER_DSN: "smtp://mailer:1025"
+      # Dev uniquement : crée la table messenger_messages automatiquement (en prod : migration Doctrine)
+      MESSENGER_TRANSPORT_DSN: "doctrine://default?auto_setup=1"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      database:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: .
+      target: dev
+    command: ["php", "bin/console", "messenger:consume", "async", "-vv", "--time-limit=3600", "--memory-limit=128M"]
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "mysql://${MARIADB_USER:-app}:${MARIADB_PASSWORD:-!ChangeMe!}@database:3306/${MARIADB_DATABASE:-app}?serverVersion=11.4.0-MariaDB&charset=utf8mb4"
+      MAILER_DSN: "smtp://mailer:1025"
+      # Dev uniquement : crée la table messenger_messages automatiquement (en prod : migration Doctrine)
+      MESSENGER_TRANSPORT_DSN: "doctrine://default?auto_setup=1"
     volumes:
       - .:/var/www/html
     depends_on:

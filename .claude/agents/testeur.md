@@ -1,6 +1,6 @@
 ---
 name: testeur
-description: "Écrit et maintient les tests PHPUnit 13 (unitaires, fonctionnels WebTestCase, repositories) et les fixtures de test."
+description: "Écrit et maintient les tests PHPUnit 12 (unitaires, fonctionnels WebTestCase, repositories) et les fixtures de test."
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
 ---

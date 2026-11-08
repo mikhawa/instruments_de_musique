@@ -19,7 +19,7 @@ Le répertoire sera sous WSL (`/home/formaweb/instruments_de_musique` au travail
 Toujours déléguer aux sous-agents de .claude/agents/ (règles de choix : .claude/models.md) :
 
 Haiku : verificateur (tests + lint), redacteur-docs, admin-crud (EasyAdmin simple)
-Sonnet : dev-api, dev-react, migrations, testeur, devops
+Sonnet : dev-api, dev-react, designer, migrations, testeur, devops
 Opus : architecte, auditeur-securite, debogueur
 
 Toute modification de code se termine par un passage de verificateur.
