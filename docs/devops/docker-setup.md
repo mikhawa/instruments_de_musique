@@ -44,6 +44,7 @@ PHP 8.3 partout (Docker et Hostinger). `composer.json` impose `config.platform.p
 - `compose.yaml` : services `php`, `worker`, `web` (Nginx, http://localhost:8080) et `database`. `DATABASE_URL` et `MAILER_DSN` sont injectés dans les conteneurs `php` et `worker` (hôte `database:3306`, `mailer:1025`).
 - `compose.override.yaml` : port 3307 de la base, Mailpit (interface http://localhost:8025, SMTP 1025), phpMyAdmin (http://localhost:8081).
 - `docker/nginx/default.conf`, `.dockerignore`.
+- Nginx résout `php` dynamiquement via le DNS interne de Docker (`resolver 127.0.0.11 valid=10s` + `fastcgi_pass` avec variable) : si le conteneur `php` est recréé (nouvelle IP), plus de 502, inutile de redémarrer `web`.
 
 Aucune installation locale de PHP ou de MariaDB n'est nécessaire : tout se lance dans les conteneurs.
 
